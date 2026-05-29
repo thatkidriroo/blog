@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Write a post</title>
+  <title>Admin</title>
   <style>
     :root {
       --bg: #15181f;
@@ -12,7 +12,6 @@
       --text-dim: #9ca3af;
       --border: #2d313c;
       --accent: #6366f1;
-      --accent-hover: #5558e6;
       --success: #22c55e;
       --error: #ef4444;
     }
@@ -24,23 +23,36 @@
       font-size: 16px;
       line-height: 1.6;
       padding: 1em;
+      display: flex;
+      min-height: 100vh;
+      align-items: center;
     }
     .container {
-      max-width: 640px;
+      max-width: 480px;
       margin: 0 auto;
+      width: 100%;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2em;
     }
     h1 {
-      font-size: 1.4em;
-      margin-bottom: 1em;
-      padding-bottom: 0.5em;
-      border-bottom: 1px solid var(--border);
+      font-size: 1.3em;
+      margin-bottom: 0.3em;
+    }
+    .sub {
+      color: var(--text-dim);
+      font-size: 0.88em;
+      margin-bottom: 1.5em;
     }
     .form-group {
       margin-bottom: 1em;
     }
     label {
       display: block;
-      font-size: 0.88em;
+      font-size: 0.85em;
       font-weight: 600;
       margin-bottom: 0.3em;
       color: var(--text-dim);
@@ -51,7 +63,7 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       font-size: 1em;
-      background: var(--card);
+      background: var(--bg);
       color: var(--text);
       font-family: inherit;
       outline: none;
@@ -60,26 +72,20 @@
     input:focus, textarea:focus {
       border-color: var(--accent);
     }
-    textarea {
-      resize: vertical;
-    }
     textarea#content {
-      min-height: 250px;
+      min-height: 220px;
       font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-      font-size: 0.92em;
+      font-size: 0.9em;
       line-height: 1.5;
     }
     .hint {
-      font-size: 0.8em;
+      font-size: 0.78em;
       color: var(--text-dim);
       margin-top: 0.3em;
       opacity: 0.7;
     }
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4em;
-      padding: 0.75em 1.5em;
+      padding: 0.7em 1.5em;
       background: var(--accent);
       color: white;
       border: none;
@@ -88,105 +94,197 @@
       font-weight: 600;
       cursor: pointer;
       transition: opacity 0.2s;
-      width: 100%;
-      justify-content: center;
     }
     .btn:hover { opacity: 0.85; }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-full { width: 100%; text-align: center; display: block; }
     .status {
-      margin-top: 1em;
-      padding: 0.8em 1em;
+      margin-top: 0.8em;
+      padding: 0.7em 1em;
       border-radius: 10px;
-      font-size: 0.9em;
+      font-size: 0.88em;
       display: none;
     }
-    .status.success { display: block; background: #052e16; color: var(--success); border: 1px solid #166534; }
     .status.error { display: block; background: #450a0a; color: var(--error); border: 1px solid #991b1b; }
+    .status.success { display: block; background: #052e16; color: var(--success); border: 1px solid #166534; }
     .status a { color: var(--accent); }
-    .back-link {
-      display: block;
-      margin-top: 1.5em;
-      text-align: center;
-      font-size: 0.85em;
+    .hidden { display: none !important; }
+    .flex { display: flex; align-items: center; justify-content: space-between; }
+    .btn-sm {
+      padding: 0.35em 0.8em;
+      background: transparent;
       color: var(--text-dim);
-      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.82em;
+      cursor: pointer;
+      transition: all 0.15s;
     }
+    .btn-sm:hover { color: var(--text); border-color: var(--text-dim); }
+    h2 { font-size: 1.1em; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>✏️ New Post</h1>
-    <form id="postForm">
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title" required placeholder="e.g. What I learned this week" />
-      </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <input type="text" id="description" name="description" required placeholder="Short summary of the post" />
-      </div>
-      <div class="form-group">
-        <label for="tags">Tags</label>
-        <input type="text" id="tags" name="tags" placeholder="e.g. personal, tech, life" />
-        <div class="hint">Comma-separated</div>
-      </div>
-      <div class="form-group">
-        <label for="content">Content (Markdown)</label>
-        <textarea id="content" name="content" required placeholder="Write your post here..."></textarea>
-      </div>
-      <button type="submit" class="btn" id="publishBtn">Publish</button>
-    </form>
-    <div id="status" class="status"></div>
-    <a href="/" class="back-link">&larr; Back to blog</a>
+  <div class="container" id="loginView">
+    <div class="card">
+      <h1>🔑 Login</h1>
+      <p class="sub">Enter your credentials to write a post.</p>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn btn-full" id="loginBtn">Sign in</button>
+      </form>
+      <div id="loginStatus" class="status"></div>
+    </div>
+  </div>
+
+  <div class="container hidden" id="editorView">
+    <div class="flex" style="margin-bottom: 1em;">
+      <h2>✏️ New Post</h2>
+      <button class="btn-sm" id="logoutBtn">Logout</button>
+    </div>
+    <div class="card">
+      <form id="postForm">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" required placeholder="e.g. What I learned this week" />
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <input type="text" id="description" name="description" required placeholder="Short summary of the post" />
+        </div>
+        <div class="form-group">
+          <label for="tags">Tags</label>
+          <input type="text" id="tags" name="tags" placeholder="e.g. personal, tech, life" />
+          <div class="hint">Comma-separated</div>
+        </div>
+        <div class="form-group">
+          <label for="content">Content (Markdown)</label>
+          <textarea id="content" name="content" required placeholder="Write your post here..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-full" id="publishBtn">Publish</button>
+      </form>
+      <div id="publishStatus" class="status"></div>
+    </div>
+    <a href="/" class="back-link" style="display:block;margin-top:1.5em;text-align:center;font-size:0.85em;color:var(--text-dim);text-decoration:none;">&larr; Back to blog</a>
   </div>
 
   <script>
-    document.getElementById('postForm').addEventListener('submit', async (e) => {
+    const PASSWORD_HASH = "ce5c20e2da3cd038b9f521014d0b7589edf58c5662beb5b0acbcc9312050c16e";
+    const ADMIN_USER = "admin";
+
+    async function hashPassword(pw) {
+      const enc = new TextEncoder().encode(pw);
+      const buf = await crypto.subtle.digest("SHA-256", enc);
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    function showLogin() {
+      document.getElementById("loginView").classList.remove("hidden");
+      document.getElementById("editorView").classList.add("hidden");
+    }
+
+    function showEditor() {
+      document.getElementById("loginView").classList.add("hidden");
+      document.getElementById("editorView").classList.remove("hidden");
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      if (sessionStorage.getItem("admin_logged_in") === "true") {
+        showEditor();
+      }
+    });
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const btn = document.getElementById('publishBtn');
-      const status = document.getElementById('status');
-      const title = document.getElementById('title').value.trim();
-      const description = document.getElementById('description').value.trim();
-      const tagsRaw = document.getElementById('tags').value.trim();
-      const content = document.getElementById('content').value.trim();
+      const btn = document.getElementById("loginBtn");
+      const status = document.getElementById("loginStatus");
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (username !== ADMIN_USER) {
+        status.className = "status error";
+        status.textContent = "Invalid username or password.";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Signing in...";
+      status.className = "status";
+      status.textContent = "";
+
+      const pwHash = await hashPassword(password);
+
+      if (pwHash === PASSWORD_HASH) {
+        sessionStorage.setItem("admin_logged_in", "true");
+        showEditor();
+      } else {
+        status.className = "status error";
+        status.textContent = "Invalid username or password.";
+      }
+
+      btn.disabled = false;
+      btn.textContent = "Sign in";
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      sessionStorage.removeItem("admin_logged_in");
+      showLogin();
+      document.getElementById("loginForm").reset();
+    });
+
+    document.getElementById("postForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("publishBtn");
+      const status = document.getElementById("publishStatus");
+      const title = document.getElementById("title").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const tagsRaw = document.getElementById("tags").value.trim();
+      const content = document.getElementById("content").value.trim();
 
       if (!title || !description || !content) {
-        status.className = 'status error';
-        status.textContent = 'Please fill in title, description, and content.';
+        status.className = "status error";
+        status.textContent = "Please fill in title, description, and content.";
         return;
       }
 
       const tags = tagsRaw
-        ? tagsRaw.split(',').map(t => t.trim().toLowerCase()).filter(Boolean)
+        ? tagsRaw.split(",").map(t => t.trim().toLowerCase()).filter(Boolean)
         : [];
 
       btn.disabled = true;
-      btn.textContent = 'Publishing...';
-      status.className = 'status';
-      status.textContent = '';
+      btn.textContent = "Publishing...";
+      status.className = "status";
+      status.textContent = "";
 
       try {
-        const res = await fetch('/api/publish', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+        const res = await fetch("/api/publish", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ title, description, tags, content }),
         });
         const data = await res.json();
 
         if (res.ok) {
-          status.className = 'status success';
+          status.className = "status success";
           status.innerHTML = `Published! <a href="${data.url}" target="_blank">View post</a>`;
-          document.getElementById('postForm').reset();
+          document.getElementById("postForm").reset();
         } else {
-          status.className = 'status error';
-          status.textContent = data.error || 'Something went wrong.';
+          status.className = "status error";
+          status.textContent = data.error || "Something went wrong.";
         }
       } catch (err) {
-        status.className = 'status error';
-        status.textContent = 'Network error. Check your connection.';
+        status.className = "status error";
+        status.textContent = "Network error. Check your connection.";
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Publish';
+        btn.textContent = "Publish";
       }
     });
   </script>
