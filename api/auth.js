@@ -44,23 +44,13 @@ export default async function handler(req, res) {
         </body></html>`);
     }
 
+    const tokenMsg = `authorization:github:${data.access_token}:${data.scope || ""}`;
     res.setHeader("Content-Type", "text/html");
     res.end(`
-      <html><body><script>
-        (function() {
-          function receiveMessage(msg) {
-            if (msg.data === 'authorizing:github') {
-              window.opener.postMessage(
-                'authorization:github:${data.access_token}:${data.scope || ""}',
-                msg.origin
-              );
-              window.close();
-            }
-          }
-          window.addEventListener('message', receiveMessage, false);
-          window.opener.postMessage('authorizing:github', '*');
-        })();
-      </script></body></html>
+      <!doctype html><html><body><script>
+        window.opener.postMessage('${tokenMsg}', '*');
+        window.close();
+      <\/script></body></html>
     `);
   } catch (err) {
     res.setHeader("Content-Type", "text/html");
