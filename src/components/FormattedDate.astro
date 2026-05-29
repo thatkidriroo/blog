@@ -8,10 +8,12 @@ const { date } = Astro.props;
 
 <time datetime={date.toISOString()}>
 	{
-		date.toLocaleDateString('en-us', {
+		date.toLocaleString('en-us', {
 			year: 'numeric',
 			month: 'short',
 			day: 'numeric',
+			hour: 'numeric',
+			minute: '2-digit',
 		})
 	}
 </time>
