@@ -6,7 +6,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://blog-of-kusekwa.vercel.app',
+	site: 'https://blog.kusekwa.space',
 	integrations: [mdx(), sitemap()],
 	fonts: [
 		{
