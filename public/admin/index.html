@@ -6,46 +6,46 @@
   <title>Content Manager</title>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
   <script>
-    CMS.init({
-      config: {
-        backend: {
-          name: "github",
-          repo: "thatkidriroo/blog",
-          branch: "master",
-          base_url: "https://blog.kusekwa.space",
-          auth_endpoint: "api/auth",
-        },
-        media_folder: "public/images",
-        public_folder: "/images",
-        collections: [
-          {
-            name: "blog",
-            label: "Blog Posts",
-            folder: "src/content/blog",
-            create: true,
-            delete: true,
-            path: "{{slug}}",
-            extension: "md",
-            format: "frontmatter",
-            slug: "{{slug}}",
-            fields: [
-              { label: "Title", name: "title", widget: "string" },
-              { label: "Description", name: "description", widget: "text" },
-              {
-                label: "Publish Date",
-                name: "pubDate",
-                widget: "datetime",
-                format: "MMM DD YYYY",
-              },
-              { label: "Tags", name: "tags", widget: "list", required: false, default: [] },
-              { label: "Body", name: "body", widget: "markdown" },
-            ],
-          },
-        ],
+    window.CMS_CONFIG = {
+      backend: {
+        name: "github",
+        repo: "thatkidriroo/blog",
+        branch: "master",
+        base_url: "https://blog.kusekwa.space",
+        auth_endpoint: "api/auth",
       },
-    });
+      media_folder: "public/images",
+      public_folder: "/images",
+      collections: [
+        {
+          name: "blog",
+          label: "Blog Posts",
+          folder: "src/content/blog",
+          create: true,
+          delete: true,
+          path: "{{slug}}",
+          extension: "md",
+          format: "frontmatter",
+          slug: "{{slug}}",
+          fields: [
+            { label: "Title", name: "title", widget: "string" },
+            { label: "Description", name: "description", widget: "text" },
+            {
+              label: "Publish Date",
+              name: "pubDate",
+              widget: "datetime",
+              date_format: "MMM DD YYYY",
+              time_format: false,
+              format: "MMM DD YYYY",
+            },
+            { label: "Tags", name: "tags", widget: "list", required: false, default: [] },
+            { label: "Body", name: "body", widget: "markdown" },
+          ],
+        },
+      ],
+    };
   </script>
+  <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
 </body>
 </html>
