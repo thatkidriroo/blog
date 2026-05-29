@@ -1,0 +1,41 @@
+---
+const today = new Date();
+---
+
+<footer>
+  <p>&copy; {today.getFullYear()} Kusekwa</p>
+  <div class="links">
+    <a href="https://github.com/kusekwa" target="_blank">GitHub</a>
+    <a href="/rss.xml">RSS</a>
+  </div>
+</footer>
+<style>
+  footer {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 2em 1.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85em;
+    color: rgb(var(--gray));
+    border-top: 1px solid rgb(var(--border));
+  }
+  .links {
+    display: flex;
+    gap: 1.5em;
+  }
+  .links a {
+    color: rgb(var(--gray));
+  }
+  .links a:hover {
+    color: var(--accent);
+  }
+  @media (max-width: 480px) {
+    footer {
+      flex-direction: column;
+      gap: 0.5em;
+      text-align: center;
+    }
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Header from '../../components/Header.astro';
+import { SITE_TITLE } from '../../consts';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
+  return tags.map((tag) => ({
+    params: { tag },
+    props: { tag },
+  }));
+}
+
+const { tag } = Astro.props;
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter((p) => p.data.tags.includes(tag))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`#${tag} - ${SITE_TITLE}`} description={`Posts tagged with ${tag}`} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="page-header">
+        <h1 style="font-size: 1.5em;">
+          Posts tagged: <span style="color: var(--accent);">#{tag}</span>
+        </h1>
+        <p class="page-desc">{posts.length} post{posts.length !== 1 ? 's' : ''}</p>
+      </div>
+
+      <div class="bento-list">
+        {posts.map((post) => (
+          <article class="bento-list-item">
+            <a href={`/blog/${post.id}/`}>
+              <div class="bli-meta">
+                <FormattedDate date={post.data.pubDate} />
+              </div>
+              <h3>{post.data.title}</h3>
+              <p class="bli-desc">{post.data.description}</p>
+            </a>
+          </article>
+        ))}
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

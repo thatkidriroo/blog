@@ -1,0 +1,107 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`About - ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+    <style>
+      .about-main {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 2em 1.5em 3em;
+      }
+
+      .about-head {
+        margin-bottom: 2em;
+        text-align: center;
+      }
+
+      .about-avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5em;
+        font-weight: 700;
+        margin: 0 auto 1em;
+      }
+
+      .about-head h1 {
+        font-size: 1.8em;
+        margin-bottom: 0.2em;
+      }
+
+      .about-head .handle {
+        color: rgb(var(--gray));
+        font-size: 0.95em;
+      }
+
+      .about-body {
+        background: rgb(var(--card));
+        border-radius: var(--radius);
+        padding: 2em;
+        box-shadow: var(--box-shadow);
+        font-size: 1.05em;
+        line-height: 1.75;
+        color: rgb(var(--gray-dark));
+      }
+
+      .about-body p {
+        margin-bottom: 1.5em;
+      }
+
+      @media (max-width: 768px) {
+        .about-main {
+          padding: 1em;
+        }
+
+        .about-head h1 {
+          font-size: 1.4em;
+        }
+
+        .about-body {
+          padding: 1.25em;
+          font-size: 1em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <Header />
+    <main class="about-main">
+      <div class="about-head">
+        <div class="about-avatar">K</div>
+        <h1>About Me</h1>
+        <div class="handle">@thatkidriroo</div>
+      </div>
+
+      <div class="about-body">
+        <p>
+          Hey there! I'm Kusekwa. This is my little corner of the internet where I share what I'm learning,
+          building, and thinking about. I'm passionate about software engineering, technology, and creative
+          problem-solving.
+        </p>
+
+        <p>
+          This blog is built with <a href="https://astro.build/">Astro</a> — a fantastic framework for
+          content-driven websites. It's fast, lightweight, and a joy to work with.
+        </p>
+
+        <p>
+          When I'm not coding, you'll probably find me reading, exploring new ideas, or working on side
+          projects. Thanks for stopping by!
+        </p>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>

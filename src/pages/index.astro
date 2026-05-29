@@ -1,0 +1,157 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const latestPosts = posts.slice(0, 5);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <div class="bento-grid">
+        <!-- Hero -->
+        <div class="bento span-2 hero-bento">
+          <h1>Hey, I'm Kusekwa</h1>
+          <div class="handle">@thatkidriroo</div>
+          <p class="bio">
+            I write about life, learning, and building things — like I'm talking to a friend.
+          </p>
+          <div class="hero-meta">
+            <span><strong>{posts.length}</strong> posts</span>
+          </div>
+        </div>
+
+        <!-- About quick -->
+        <div class="bento about-bento">
+          <div class="about-avatar">K</div>
+          <p>Thoughts, stories, and ideas.</p>
+          <div class="about-links">
+            <a href="/blog">Blog</a>
+            <a href="/about">About</a>
+            <a href="https://github.com/kusekwa" target="_blank">GitHub</a>
+          </div>
+        </div>
+
+        <!-- Post 1 (featured) -->
+        {latestPosts[0] && (
+          <article class="bento post-bento">
+            <a href={`/blog/${latestPosts[0].id}/`}>
+              <div class="post-bento-meta">
+                <FormattedDate date={latestPosts[0].data.pubDate} />
+              </div>
+              <h3>{latestPosts[0].data.title}</h3>
+              <p class="post-bento-desc">{latestPosts[0].data.description}</p>
+              {latestPosts[0].data.tags.length > 0 && (
+                <div class="post-bento-tags">
+                  {latestPosts[0].data.tags.map((tag) => <span class="tag">{tag}</span>)}
+                </div>
+              )}
+            </a>
+          </article>
+        )}
+
+        <!-- Post 2 -->
+        {latestPosts[1] && (
+          <article class="bento post-bento">
+            <a href={`/blog/${latestPosts[1].id}/`}>
+              <div class="post-bento-meta">
+                <FormattedDate date={latestPosts[1].data.pubDate} />
+              </div>
+              <h3>{latestPosts[1].data.title}</h3>
+              <p class="post-bento-desc">{latestPosts[1].data.description}</p>
+              {latestPosts[1].data.tags.length > 0 && (
+                <div class="post-bento-tags">
+                  {latestPosts[1].data.tags.map((tag) => <span class="tag">{tag}</span>)}
+                </div>
+              )}
+            </a>
+          </article>
+        )}
+
+        <!-- Post 3 -->
+        {latestPosts[2] && (
+          <article class="bento span-2 post-bento">
+            <a href={`/blog/${latestPosts[2].id}/`}>
+              <div class="post-bento-meta">
+                <FormattedDate date={latestPosts[2].data.pubDate} />
+              </div>
+              <h3>{latestPosts[2].data.title}</h3>
+              <p class="post-bento-desc">{latestPosts[2].data.description}</p>
+              {latestPosts[2].data.tags.length > 0 && (
+                <div class="post-bento-tags">
+                  {latestPosts[2].data.tags.map((tag) => <span class="tag">{tag}</span>)}
+                </div>
+              )}
+            </a>
+          </article>
+        )}
+
+        <!-- Post 4 -->
+        {latestPosts[3] && (
+          <article class="bento post-bento">
+            <a href={`/blog/${latestPosts[3].id}/`}>
+              <div class="post-bento-meta">
+                <FormattedDate date={latestPosts[3].data.pubDate} />
+              </div>
+              <h3>{latestPosts[3].data.title}</h3>
+              <p class="post-bento-desc">{latestPosts[3].data.description}</p>
+              {latestPosts[3].data.tags.length > 0 && (
+                <div class="post-bento-tags">
+                  {latestPosts[3].data.tags.map((tag) => <span class="tag">{tag}</span>)}
+                </div>
+              )}
+            </a>
+          </article>
+        )}
+
+        <!-- Newsletter -->
+        <div class="bento nl-bento">
+          <h3>Stay in touch</h3>
+          <p>New posts delivered to your inbox. No spam.</p>
+          <form class="nl-form" action="https://buttondown.com/api/emails/embed-subscribe/riroo" method="post" target="_blank">
+            <input type="email" name="email" placeholder="your@email.com" required />
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+
+        <!-- Post 5 -->
+        {latestPosts[4] && (
+          <article class="bento post-bento">
+            <a href={`/blog/${latestPosts[4].id}/`}>
+              <div class="post-bento-meta">
+                <FormattedDate date={latestPosts[4].data.pubDate} />
+              </div>
+              <h3>{latestPosts[4].data.title}</h3>
+              <p class="post-bento-desc">{latestPosts[4].data.description}</p>
+              {latestPosts[4].data.tags.length > 0 && (
+                <div class="post-bento-tags">
+                  {latestPosts[4].data.tags.map((tag) => <span class="tag">{tag}</span>)}
+                </div>
+              )}
+            </a>
+          </article>
+        )}
+
+        <!-- View all -->
+        {posts.length > 5 && (
+          <div class="bento" style="display: flex; align-items: center; justify-content: center;">
+            <a href="/blog" class="view-all-link">View all posts &rarr;</a>
+          </div>
+        )}
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
