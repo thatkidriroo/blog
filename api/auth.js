@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   const { code } = req.query;
-  const site_url = process.env.SITE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://blog.kusekwa.space");
+  const site_url = process.env.SITE_URL || "https://blog.kusekwa.space";
   const client_id = process.env.GITHUB_CLIENT_ID;
   const client_secret = process.env.GITHUB_CLIENT_SECRET;
   const redirect_uri = `${site_url}/api/auth`;
