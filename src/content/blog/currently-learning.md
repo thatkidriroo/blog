@@ -1,7 +1,7 @@
 ---
 title: "Currently learning"
 description: "Html and css + Js"
-pubDate: "May 29, 2026"
+pubDate: "2026-05-29T10:39:22.000Z"
 tags: ["tech"]
 ---
 

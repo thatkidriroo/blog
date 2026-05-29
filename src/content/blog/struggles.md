@@ -1,7 +1,7 @@
 ---
 title: "Struggles"
 description: "The struggles a man must go through"
-pubDate: "May 29, 2026"
+pubDate: "2026-05-29T09:52:00.000Z"
 tags: ["tech", "blog-issues"]
 ---
 

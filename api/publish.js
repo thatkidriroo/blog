@@ -20,12 +20,7 @@ export default async function handler(req, res) {
     .replace(/^-|-$/g, "")
     .slice(0, 80);
 
-  const date = new Date();
-  const pubDate = date.toLocaleDateString("en-us", {
-    month: "short",
-    day: "2-digit",
-    year: "numeric",
-  });
+  const pubDate = new Date().toISOString();
 
   const tagsYaml = tags && tags.length > 0
     ? `tags: [${tags.map(t => `"${t}"`).join(", ")}]`

@@ -1,7 +1,7 @@
 ---
 title: "First Post!!!!!!"
 description: "Kinda nervous... Never done this before"
-pubDate: "May 29, 2026"
+pubDate: "2026-05-29T09:34:54.000Z"
 tags: ["life"]
 ---
 
