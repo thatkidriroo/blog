@@ -1,51 +1,181 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Content Manager</title>
+  <title>Write a post</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f5f4;
+      color: #1c1917;
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 1em;
+    }
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.4em;
+      margin-bottom: 1em;
+      padding-bottom: 0.5em;
+      border-bottom: 1px solid #e7e5e4;
+    }
+    .form-group {
+      margin-bottom: 1em;
+    }
+    label {
+      display: block;
+      font-size: 0.88em;
+      font-weight: 600;
+      margin-bottom: 0.3em;
+      color: #444;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 0.7em 0.9em;
+      border: 1px solid #d4d4d4;
+      border-radius: 10px;
+      font-size: 1em;
+      background: #fff;
+      color: #1c1917;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus {
+      border-color: #6366f1;
+    }
+    textarea {
+      resize: vertical;
+    }
+    textarea#content {
+      min-height: 250px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      font-size: 0.92em;
+      line-height: 1.5;
+    }
+    .hint {
+      font-size: 0.8em;
+      color: #888;
+      margin-top: 0.3em;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4em;
+      padding: 0.75em 1.5em;
+      background: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      width: 100%;
+      justify-content: center;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .status {
+      margin-top: 1em;
+      padding: 0.8em 1em;
+      border-radius: 10px;
+      font-size: 0.9em;
+      display: none;
+    }
+    .status.success { display: block; background: #dcfce7; color: #166534; }
+    .status.error { display: block; background: #fee2e2; color: #991b1b; }
+    .back-link {
+      display: block;
+      margin-top: 1.5em;
+      text-align: center;
+      font-size: 0.85em;
+      color: #888;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>✏️ New Post</h1>
+    <form id="postForm">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required placeholder="e.g. What I learned this week" />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" required placeholder="Short summary of the post" />
+      </div>
+      <div class="form-group">
+        <label for="tags">Tags</label>
+        <input type="text" id="tags" name="tags" placeholder="e.g. personal, tech, life" />
+        <div class="hint">Comma-separated</div>
+      </div>
+      <div class="form-group">
+        <label for="content">Content (Markdown)</label>
+        <textarea id="content" name="content" required placeholder="Write your post here..."></textarea>
+      </div>
+      <button type="submit" class="btn" id="publishBtn">Publish</button>
+    </form>
+    <div id="status" class="status"></div>
+    <a href="/" class="back-link">&larr; Back to blog</a>
+  </div>
+
   <script>
-    window.CMS_CONFIG = {
-      backend: {
-        name: "github",
-        repo: "thatkidriroo/blog",
-        branch: "master",
-        base_url: "https://blog.kusekwa.space",
-        auth_endpoint: "api/auth",
-      },
-      media_folder: "public/images",
-      public_folder: "/images",
-      collections: [
-        {
-          name: "blog",
-          label: "Blog Posts",
-          folder: "src/content/blog",
-          create: true,
-          delete: true,
-          path: "{{slug}}",
-          extension: "md",
-          format: "frontmatter",
-          slug: "{{slug}}",
-          fields: [
-            { label: "Title", name: "title", widget: "string" },
-            { label: "Description", name: "description", widget: "text" },
-            {
-              label: "Publish Date",
-              name: "pubDate",
-              widget: "datetime",
-              date_format: "MMM DD YYYY",
-              time_format: false,
-              format: "MMM DD YYYY",
-            },
-            { label: "Tags", name: "tags", widget: "list", required: false, default: [] },
-            { label: "Body", name: "body", widget: "markdown" },
-          ],
-        },
-      ],
-    };
+    document.getElementById('postForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('publishBtn');
+      const status = document.getElementById('status');
+      const title = document.getElementById('title').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const tagsRaw = document.getElementById('tags').value.trim();
+      const content = document.getElementById('content').value.trim();
+
+      if (!title || !description || !content) {
+        status.className = 'status error';
+        status.textContent = 'Please fill in title, description, and content.';
+        return;
+      }
+
+      const tags = tagsRaw
+        ? tagsRaw.split(',').map(t => t.trim().toLowerCase()).filter(Boolean)
+        : [];
+
+      btn.disabled = true;
+      btn.textContent = 'Publishing...';
+      status.className = 'status';
+      status.textContent = '';
+
+      try {
+        const res = await fetch('/api/publish', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, description, tags, content }),
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          status.className = 'status success';
+          status.innerHTML = `Published! <a href="${data.url}" target="_blank">View post</a>`;
+          document.getElementById('postForm').reset();
+        } else {
+          status.className = 'status error';
+          status.textContent = data.error || 'Something went wrong.';
+        }
+      } catch (err) {
+        status.className = 'status error';
+        status.textContent = 'Network error. Check your connection.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Publish';
+      }
+    });
   </script>
-  <script src="https://unpkg.com/decap-cms@^3/dist/decap-cms.js"></script>
 </body>
 </html>
