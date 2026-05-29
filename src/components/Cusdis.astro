@@ -11,7 +11,19 @@ const appId = "d3fcb23-4314-4b1b-9134-71ded6ea3162";
     data-page-url={Astro.url.href}
     data-page-title={Astro.props.title || ""}
   ></div>
-  <script is:inline src="https://cusdis.com/js/cusdis.es.js"></script>
+  <script is:inline>
+    (function() {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://cusdis.com/js/cusdis.es.js';
+      s.async = true;
+      s.onload = function() {
+        if (window.CUSDIS && window.CUSDIS.initial) {
+          window.CUSDIS.initial();
+        }
+      };
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
   <noscript>
     <p class="no-js">Please enable JavaScript to view comments.</p>
   </noscript>
