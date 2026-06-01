@@ -25,13 +25,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
         width: 72px;
         height: 72px;
         border-radius: 50%;
-        background: var(--accent);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.5em;
-        font-weight: 700;
+        object-fit: cover;
         margin: 0 auto 1em;
       }
 
@@ -79,7 +73,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
     <Header />
     <main class="about-main">
       <div class="about-head">
-        <div class="about-avatar">K</div>
+        <img class="about-avatar" src="/profile.jpg" alt="Profile" />
         <h1>About Me</h1>
         <div class="handle">@thatkidriroo</div>
       </div>
