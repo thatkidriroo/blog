@@ -196,6 +196,16 @@ th, td {
   font-weight: 600;
 }
 
+.hero-meta .website-link {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #2563eb;
+  text-decoration: none;
+}
+.hero-meta .website-link:hover {
+  text-decoration: underline;
+}
+
 /* ── Post card (bento) ── */
 .post-bento .post-bento-meta {
   font-size: 0.82em;
